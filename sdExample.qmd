@@ -97,14 +97,14 @@ This it the last page in the survey
 # environment instead of hard-coding it here, which you can open and edit with
 # usethis::edit_r_environ()
 
- db <- sd_database(
-   host       = NULL,
-   db_name    = NULL,
-   port       = NULL,
-   user       = NULL,
-   table_name = NULL,
-   password   = Sys.getenv("SUPABASE_PASSWORD")
- )
+# db <- sd_database(
+#   host       = "",
+#   db_name    = "",
+#   port       = "",
+#   user       = "",
+#   table_name = "",
+#   password   = Sys.getenv("SUPABASE_PASSWORD")
+# )
 
 # If you don't have a database setup you can just leave the function blank.
 
