@@ -9,22 +9,18 @@ filters: [surveydown]
 #| warning: false
 #| message: false
 
-# Run this in your Terminal to install the Quarto extension:
+# Run this in your Console to install the R package:
+# remotes::install_github("jhelvy/surveydown")
+
+# If you do not see the extension in the project directory in
+# _extensions/surveydown, you can install the extension by running this
+# in your Terminal:
 # quarto install extension jhelvy/surveydown-ext
 
-# Run this in your Console to install the R package:
-# remotes::install_github("jhelvy/surveydown", force = TRUE)
-
-# Load the package locally:
-# devtools::load_all("../surveydown")
-
-# Load the package from library:
+# Load the package
 library(surveydown)
 
-# Load other necessary packages:
-library(tidyverse)
-
-# This is essential to the survey:
+# Run initial setup function (essential - do not delete)
 sd_setup()
 ```
 
@@ -107,6 +103,8 @@ This it the last page in the survey
 # )
 
 # If you don't have a database setup you can just leave the function blank.
+# When testing without a database connected, a data.csv file will be
+# written to the project directory so you can preview the response data.
 
 db <- sd_database()
 
