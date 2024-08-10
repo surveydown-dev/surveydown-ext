@@ -86,6 +86,10 @@ This it the last page in the survey
 ```{r}
 #| context: server
 
+##########################
+# supabase configuration #
+##########################
+
 # surveydown stores data on a database that you define at https://supabase.com/
 # To connect to a database to store the survey data, update this with details
 # from your supabase account and database. See documentation for details.
@@ -99,7 +103,8 @@ This it the last page in the survey
 #   port       = "",
 #   user       = "",
 #   table_name = "",
-#   password   = Sys.getenv("SUPABASE_PASSWORD")
+#   password   = Sys.getenv("SUPABASE_PASSWORD"),
+#   gssencmode = "prefer" # Change to "disable" if there's connection problem.
 # )
 
 # If you don't have a database setup you can just leave the function blank.
@@ -108,6 +113,23 @@ This it the last page in the survey
 
 db <- sd_database()
 
+########################
+# shinyapps deployment #
+########################
+
+# Before deploying on shinyapps.io, please create an .Renviron file and add:
+# "SUPABASE_PASSWORD=your_password"
+# .gitignore has included .Renviron, so it won't be pushed to GitHub.
+
+# To deploy to shinyapps.io, run:
+# rsconnect::deployDoc("your_survey.qmd")
+
+# To deploy and specify a different name for your survey page, run:
+# rsconnect::deployDoc(
+#   doc = "your_survey.qmd",
+#   appName = "Your Survey Name"
+# )
+
 # Use the sd_config() function to customize features in your survey, like
 # logic to conditionally display questions or skip to pages based on
 # responses to skip other questions in your survey. See documentation for
@@ -115,7 +137,11 @@ db <- sd_database()
 
 config <- sd_config()
 
-# The sd_server function initiates your survey - don't change this
+##########################
+# Don't change this part #
+##########################
+
+# The sd_server function initiates your survey
 
 sd_server(
   input   = input,

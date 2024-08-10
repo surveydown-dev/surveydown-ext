@@ -1,10 +1,11 @@
 foo.R
 build.R
-.Rhistory
-.DS_Store
-.Rproj.user
 docs
 doc
 Meta
-.idea
 example_files
+.idea
+.Rproj.user
+.Rhistory
+.Renviron
+.DS_Store
