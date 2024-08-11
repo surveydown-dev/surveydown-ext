@@ -113,13 +113,18 @@ This it the last page in the survey
 
 db <- sd_database()
 
+###################################
+# Set your supabase password here #
+###################################
+
+# To set your supabase password in this project,
+# run sd_set_password("your_password") in the R Console.
+# Don't leave the sd_set_password() function in this .qmd.
+# You only need to set the password once for each survey project.
+
 ########################
 # shinyapps deployment #
 ########################
-
-# Before deploying on shinyapps.io, please create an .Renviron file and add:
-# "SUPABASE_PASSWORD=your_password"
-# .gitignore has included .Renviron, so it won't be pushed to GitHub.
 
 # To deploy to shinyapps.io, run:
 # rsconnect::deployDoc("your_survey.qmd")
