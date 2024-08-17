@@ -1,17 +1,5 @@
 local function ensure_html_deps()
   quarto.doc.add_html_dependency({
-    name = 'requiredquestions',
-    scripts = {"required_questions.js"}
-  })
-  quarto.doc.add_html_dependency({
-    name = 'hidepagesjs',
-    scripts = {"hide_pages.js"}
-  })
-  quarto.doc.add_html_dependency({
-    name = 'updateprogressjs',
-    scripts = {"update_progress.js"}
-  })
-  quarto.doc.add_html_dependency({
     name = 'surveydowncss',
     stylesheets = {"surveydown.css"}
   })
