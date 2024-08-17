@@ -9,19 +9,27 @@ filters: [surveydown]
 #| warning: false
 #| message: false
 
-# Run this in your Console to install the R package:
-# remotes::install_github("jhelvy/surveydown")
+# Run this in your Console to install the latest version of the R package:
+# remotes::install_github("jhelvy/surveydown", force = TRUE)
 
-# If you do not see the extension in the project directory in
-# _extensions/surveydown, you can install the extension by running this
-# in your Terminal:
-# quarto install extension jhelvy/surveydown-ext
+# Run this to install or update the Quarto extension to the latest version:
+# surveydown::sd_update_extension()
 
 # Load the package
-library(surveydown)
+# library(surveydown)
+devtools::load_all()
 
 # Run initial setup function (essential - do not delete)
 sd_setup()
+
+# Set your password
+
+# To set your surveydown password in this project, run:
+# sd_set_password("your_password")
+
+# Don't leave the sd_set_password() function in this .qmd!
+# You must use this password for your password on your supabase database.
+# You only need to set the password once for each survey project.
 ```
 
 ::: {#welcome .sd-page}
@@ -86,9 +94,9 @@ This it the last page in the survey
 ```{r}
 #| context: server
 
-##########################
-# supabase configuration #
-##########################
+##################
+# database setup #
+##################
 
 # surveydown stores data on a database that you define at https://supabase.com/
 # To connect to a database to store the survey data, update this with details
@@ -113,27 +121,9 @@ This it the last page in the survey
 
 db <- sd_database()
 
-###################################
-# Set your supabase password here #
-###################################
-
-# To set your supabase password in this project,
-# run sd_set_password("your_password") in the R Console.
-# Don't leave the sd_set_password() function in this .qmd.
-# You only need to set the password once for each survey project.
-
-########################
-# shinyapps deployment #
-########################
-
-# To deploy to shinyapps.io, run:
-# rsconnect::deployDoc("your_survey.qmd")
-
-# To deploy and specify a different name for your survey page, run:
-# rsconnect::deployDoc(
-#   doc = "your_survey.qmd",
-#   appName = "Your Survey Name"
-# )
+################
+# config setup #
+################
 
 # Use the sd_config() function to customize features in your survey, like
 # logic to conditionally display questions or skip to pages based on
@@ -142,14 +132,15 @@ db <- sd_database()
 
 config <- sd_config()
 
-##########################
-# Don't change this part #
-##########################
+####################################
+# Don't change anything below here #
+####################################
 
-# The sd_server function initiates your survey
+# The sd_server function initiates your survey - don't change this
 
 sd_server(
   input   = input,
+  output  = output,
   session = session,
   config  = config,
   db      = db
