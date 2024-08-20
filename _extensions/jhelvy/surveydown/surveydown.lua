@@ -1,7 +1,25 @@
+-- Function to get the path of a file in an R package
+local function get_package_file_path(package_name, file_name, subdirectory)
+  local cmd = string.format(
+    "Rscript -e \"cat(system.file('%s', '%s', package = '%s'))\"",
+    subdirectory or "", file_name, package_name
+  )
+  return pandoc.pipe("sh", {"-c", cmd}, ""):gsub("%s+$", "")
+end
+
 local function ensure_html_deps()
+  local package_name = "surveydown"
+
+  local surveydown_css_path = get_package_file_path(package_name, "surveydown.css", "css")
+  local page_nav_js_path = get_package_file_path(package_name, "page_nav.js", "js")
+
   quarto.doc.add_html_dependency({
     name = 'surveydowncss',
-    stylesheets = {"surveydown.css"}
+    stylesheets = {surveydown_css_path}
+  })
+  quarto.doc.add_html_dependency({
+    name = 'pagenavjs',
+    scripts = {page_nav_js_path}
   })
 end
 

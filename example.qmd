@@ -16,8 +16,7 @@ filters: [surveydown]
 # surveydown::sd_update_extension()
 
 # Load the package
-# library(surveydown)
-devtools::load_all()
+library(surveydown)
 
 # Run initial setup function (essential - do not delete)
 sd_setup()
