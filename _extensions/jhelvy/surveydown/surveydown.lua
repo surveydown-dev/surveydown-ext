@@ -12,6 +12,7 @@ local function ensure_html_deps()
 
   local surveydown_css_path = get_package_file_path(package_name, "surveydown.css", "css")
   local page_nav_js_path = get_package_file_path(package_name, "page_nav.js", "js")
+  local keep_alive_js_path = get_package_file_path(package_name, "keep_alive.js", "js")
 
   quarto.doc.add_html_dependency({
     name = 'surveydowncss',
@@ -20,6 +21,10 @@ local function ensure_html_deps()
   quarto.doc.add_html_dependency({
     name = 'pagenavjs',
     scripts = {page_nav_js_path}
+  })
+  quarto.doc.add_html_dependency({
+    name = 'keepalivejs',
+    scripts = {keep_alive_js_path}
   })
 end
 
