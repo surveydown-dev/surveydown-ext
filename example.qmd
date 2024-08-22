@@ -9,8 +9,8 @@ filters: [surveydown]
 #| warning: false
 #| message: false
 
-# Run this in your Console to install the latest version of the R package:
-# remotes::install_github("jhelvy/surveydown", force = TRUE)
+# Run this in your R Console to install the latest version of the package:
+# remotes::install_github("surveydown-dev/surveydown", force = TRUE)
 
 # Run this to install or update the Quarto extension to the latest version:
 # surveydown::sd_update_extension()
@@ -20,15 +20,6 @@ library(surveydown)
 
 # Run initial setup function (essential - do not delete)
 sd_setup()
-
-# Set your password
-
-# To set your surveydown password in this project, run:
-# sd_set_password("your_password")
-
-# Don't leave the sd_set_password() function in this .qmd!
-# You must use this password for your password on your supabase database.
-# You only need to set the password once for each survey project.
 ```
 
 ::: {#welcome .sd-page}
@@ -99,10 +90,8 @@ This it the last page in the survey
 
 # surveydown stores data on a database that you define at https://supabase.com/
 # To connect to a database to store the survey data, update this with details
-# from your supabase account and database. See documentation for details.
-# For security, we recommend storing your supabase password in your R
-# environment instead of hard-coding it here, which you can open and edit with
-# usethis::edit_r_environ()
+# from your supabase account and database. See documentation for details at
+# https://surveydown.org/database
 
 # db <- sd_database(
 #   host       = "",
@@ -110,7 +99,6 @@ This it the last page in the survey
 #   port       = "",
 #   user       = "",
 #   table_name = "",
-#   password   = Sys.getenv("SUPABASE_PASSWORD"),
 #   gssencmode = "prefer" # Change to "disable" if there's connection problem.
 # )
 
@@ -125,9 +113,9 @@ db <- sd_database()
 ################
 
 # Use the sd_config() function to customize features in your survey, like
-# logic to conditionally display questions or skip to pages based on
-# responses to skip other questions in your survey. See documentation for
-# details. For this simple survey, we'll just leave this function blank.
+# logic to conditionally display questions or skip to pages based on responses
+# to skip other questions in your survey. See documentation for details at
+# https://surveydown.org/config
 
 config <- sd_config()
 

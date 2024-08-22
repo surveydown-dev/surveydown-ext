@@ -1,13 +1,13 @@
-A Quarto extension used with the [{surveydown} R package](https://github.com/jhelvy/surveydown) to generate markdown-based surveys.
+A Quarto extension used with the [{surveydown} R package](https://github.com/surveydown-dev/surveydown) to generate markdown-based surveys.
 
-See the [{surveydown}](https://jhelvy.github.io/surveydown/) package documentation for more details on how it is used with the {surveydown} package.
+Visit [surveydown.org](https://surveydown.org/) for more details on generating surveys with surveydown.
 
 ## Installation
 
 To install this extension, run this in your terminal:
 
 ```bash
-quarto install extension jhelvy/surveydown-ext
+quarto install extension surveydown-dev/surveydown-ext
 ```
 
 This will install the extension under the `_extensions` subdirectory.
@@ -20,3 +20,13 @@ A simple example survey is included here as `example.qmd`. To try it out, make s
 ```bash
 quarto serve example.qmd
 ```
+
+## Set your password
+
+Every surveydown survey needs a password for securely storing your survey response data. To set your surveydown password, run this in your R console:
+
+```r
+sd_set_password("your_password")
+```
+
+You only need to set the password once for each survey project, and be careful not to leave a hard-coded password in your `example.qmd` file! This password **must** match the password used on your supabase database. See [here](https://surveydown.org/password) for more details.
