@@ -95,7 +95,7 @@ This it the last page in the survey
 
 # db <- sd_database(
 #   host       = "",
-#   db_name    = "",
+#   dbname     = "",
 #   port       = "",
 #   user       = "",
 #   table_name = "",
