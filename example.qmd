@@ -90,23 +90,18 @@ This it the last page in the survey
 
 # surveydown stores data on a database that you define at https://supabase.com/
 # To connect to a database to store the survey data, update this with details
-# from your supabase account and database. See documentation for details at
-# https://surveydown.org/database
+# from your supabase account and database. For this demo, we set pause = TRUE
+# which will ignore the other settings and won't attempt to connect to the database.
+# See documentation for details at https://surveydown.org/store-data
 
-# db <- sd_database(
-#   host       = "",
-#   dbname     = "",
-#   port       = "",
-#   user       = "",
-#   table_name = "",
-#   gssencmode = "prefer" # Change to "disable" if there's connection problem.
-# )
-
-# If you don't have a database setup you can just leave the function blank.
-# When testing without a database connected, a data.csv file will be
-# written to the project directory so you can preview the response data.
-
-db <- sd_database()
+db <- sd_database(
+  host   = "",
+  dbname = "",
+  port   = "",
+  user   = "",
+  table  = "",
+  pause  = TRUE
+)
 
 ################
 # config setup #
