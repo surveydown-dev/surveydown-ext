@@ -27,7 +27,7 @@ local function get_main_filter_path()
     local cmd
 
     if os_type == "windows" then
-        cmd = 'Rscript -e "cat(system.file(\'quarto/filters\', \'main.lua\', package = \'surveydown\'))"'
+        cmd = 'Rscript -e "cat(system.file(\'quarto\filters\', \'main.lua\', package = \'surveydown\'))"'
     else -- macOS and Unix
         cmd = "Rscript -e \"cat(system.file('quarto/filters', 'main.lua', package = 'surveydown'))\""
     end
