@@ -5,20 +5,29 @@ end
 
 -- Detect the operating system
 local function get_os()
+    local os_type
     if package.config:sub(1,1) == '\\' then
-        return "windows"
+        os_type = "windows"
     elseif os.execute('uname -s >/dev/null 2>&1') == 0 then
         local f = io.popen("uname -s")
         local uname = f:read("*a")
         f:close()
         if uname:match("^Darwin") then
-            return "macos"
+            os_type = "macos"
         else
-            return "unix"
+            os_type = "unix"
         end
     else
-        return "unknown"
+        os_type = "unknown"
     end
+
+    -- Check for forward slash usage on Windows
+    if os_type == "windows" and package.config:sub(1,1) == '/' then
+        log("Windows detected, but using forward slashes")
+        os_type = "windows_forward_slash"
+    end
+
+    return os_type
 end
 
 -- Get the path to the main Lua filter in the surveydown package
@@ -26,14 +35,14 @@ local function get_main_filter_path()
     local os_type = get_os()
     local cmd
 
-    if os_type == "windows" then
-        cmd = 'Rscript -e "cat(system.file(\'quarto\filters\', \'main.lua\', package = \'surveydown\'))"'
+    if os_type == "windows" or os_type == "windows_forward_slash" then
+        cmd = 'Rscript -e "cat(system.file(\'quarto/filters\', \'main.lua\', package = \'surveydown\'))"'
     else -- macOS and Unix
         cmd = "Rscript -e \"cat(system.file('quarto/filters', 'main.lua', package = 'surveydown'))\""
     end
 
     local result
-    if os_type == "windows" then
+    if os_type == "windows" or os_type == "windows_forward_slash" then
         local file = io.popen(cmd, "r")
         result = file:read("*a")
         file:close()
