@@ -9,5 +9,5 @@ example_files
 .Rhistory
 .Renviron
 .DS_Store
-.html
-.csv
+*.html
+*.csv
