@@ -1,6 +1,6 @@
 -- Function to log messages
 local function log(message)
-    io.stderr:write(os.date("%Y-%m-%d %H:%M:%S") .. " - " .. message .. "\n")
+    io.stderr:write(message .. "\n")
 end
 
 -- Run R command and return result
@@ -44,6 +44,3 @@ function Pandoc(doc)
         return doc
     end
 end
-
--- Log that this filter has finished loading
-log("Cross-platform nested filter loaded successfully")
