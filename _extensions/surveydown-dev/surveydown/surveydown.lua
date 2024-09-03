@@ -1,6 +1,6 @@
 -- Function to log messages
 local function log(message)
-    io.stderr:write(message .. "\n")
+    io.stderr:write(os.date("%Y-%m-%d %H:%M:%S") .. " - " .. message .. "\n")
 end
 
 -- Detect the operating system
@@ -21,60 +21,51 @@ local function get_os()
         os_type = "unknown"
     end
 
-    -- Check for forward slash usage on Windows
     if os_type == "windows" and package.config:sub(1,1) == '/' then
-        log("Windows detected, but using forward slashes")
         os_type = "windows_forward_slash"
     end
 
     return os_type
 end
 
+-- Run R command and return result
+local function run_r_command(cmd)
+    local handle = io.popen(cmd)
+    local result = handle:read("*a")
+    handle:close()
+    return result:gsub("%s+$", "")
+end
+
 -- Get the path to the main Lua filter in the surveydown package
 local function get_main_filter_path()
-    local os_type = get_os()
-    local cmd
+    local cmd = 'Rscript -e "cat(system.file(\'quarto/filters\', \'main.lua\', package = \'surveydown\'))"'
+    local result = run_r_command(cmd)
 
-    if os_type == "windows" or os_type == "windows_forward_slash" then
-        cmd = 'Rscript -e "cat(system.file(\'quarto/filters\', \'main.lua\', package = \'surveydown\'))"'
-    else -- macOS and Unix
-        cmd = "Rscript -e \"cat(system.file('quarto/filters', 'main.lua', package = 'surveydown'))\""
+    if result == "" then
+        error("Unable to find main.lua in the surveydown package. Please check your installation.")
     end
 
-    local result
-    if os_type == "windows" or os_type == "windows_forward_slash" then
-        local file = io.popen(cmd, "r")
-        result = file:read("*a")
-        file:close()
-    else
-        result = pandoc.pipe("sh", {"-c", cmd}, "")
-    end
-
-    return result:gsub("%s+$", "")
+    return result
 end
 
 -- Get the main filter path
 local main_filter_path = get_main_filter_path()
-log("Main filter path: " .. main_filter_path)
 
 -- Load the main filter
 local main_filter, load_error = loadfile(main_filter_path)
 
 if load_error then
-    log("Error loading main filter: " .. load_error)
-    main_filter = nil
+    error("Failed to load main filter: " .. load_error)
 else
-    log("Main filter loaded successfully")
     main_filter = main_filter()  -- Execute the loaded chunk
 end
 
 -- Function to run the main filter
 function Pandoc(doc)
     if main_filter and type(main_filter.Pandoc) == "function" then
-        log("Calling main filter's Pandoc function")
         return main_filter.Pandoc(doc)
     else
-        log("Main filter's Pandoc function not found or not a function")
+        log("Warning: Main filter's Pandoc function not found or not a function")
         return doc
     end
 end
