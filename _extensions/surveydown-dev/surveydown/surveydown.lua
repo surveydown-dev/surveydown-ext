@@ -3,31 +3,6 @@ local function log(message)
     io.stderr:write(os.date("%Y-%m-%d %H:%M:%S") .. " - " .. message .. "\n")
 end
 
--- Detect the operating system
-local function get_os()
-    local os_type
-    if package.config:sub(1,1) == '\\' then
-        os_type = "windows"
-    elseif os.execute('uname -s >/dev/null 2>&1') == 0 then
-        local f = io.popen("uname -s")
-        local uname = f:read("*a")
-        f:close()
-        if uname:match("^Darwin") then
-            os_type = "macos"
-        else
-            os_type = "unix"
-        end
-    else
-        os_type = "unknown"
-    end
-
-    if os_type == "windows" and package.config:sub(1,1) == '/' then
-        os_type = "windows_forward_slash"
-    end
-
-    return os_type
-end
-
 -- Run R command and return result
 local function run_r_command(cmd)
     local handle = io.popen(cmd)
