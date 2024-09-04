@@ -13,7 +13,7 @@ end
 
 -- Get the path to the main Lua filter in the surveydown package
 local function get_main_filter_path()
-    local cmd = 'Rscript -e "cat(file.path(find.package(\'surveydown\'), \'quarto\', \'filters\', \'main.lua\'))"'
+    local cmd = 'Rscript -e "cat(file.path(find.package(\'surveydown\'), \'quarto\', \'filters\', \'sd_main.lua\'))"'
     return run_r_command(cmd)
 end
 
