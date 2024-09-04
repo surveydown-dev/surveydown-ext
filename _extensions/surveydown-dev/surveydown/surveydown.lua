@@ -1,5 +1,5 @@
--- Function to log messages
-local function log(message)
+-- Function to log error messages
+local function log_error(message)
     io.stderr:write(message .. "\n")
 end
 
@@ -13,41 +13,28 @@ end
 
 -- Get the path to the main Lua filter in the surveydown package
 local function get_main_filter_path()
-    local cmd = 'Rscript -e "cat(system.file(\'quarto/filters\', \'main.lua\', package = \'surveydown\'))"'
-    local result = run_r_command(cmd)
-
-    if result == "" then
-        error("Unable to find main.lua in the surveydown package. Please check your installation.")
-    end
-
-    return result
+    local cmd = 'Rscript -e "cat(file.path(find.package(\'surveydown\'), \'quarto\', \'filters\', \'main.lua\'))"'
+    return run_r_command(cmd)
 end
 
--- Function to load file with different path separators
-local function load_file_with_separators(path)
-    local success, result = pcall(loadfile, path)
-    if success then
-        return result
+-- Function to load file
+local function load_file(path)
+    local f, err = loadfile(path)
+    if f then
+        return f
+    else
+        return nil, err
     end
-
-    -- Try replacing forward slashes with backslashes
-    local alt_path = path:gsub("/", "\\")
-    success, result = pcall(loadfile, alt_path)
-    if success then
-        return result
-    end
-
-    -- If both attempts fail, return nil and the error message
-    return nil, "Failed to load file: " .. tostring(result)
 end
 
 -- Get the main filter path
 local main_filter_path = get_main_filter_path()
 
 -- Load the main filter
-local main_filter, load_error = load_file_with_separators(main_filter_path)
+local main_filter, load_error = load_file(main_filter_path)
 
 if load_error then
+    log_error("Error loading main filter: " .. load_error)
     error(load_error)
 else
     main_filter = main_filter()  -- Execute the loaded chunk
@@ -58,7 +45,7 @@ function Pandoc(doc)
     if main_filter and type(main_filter.Pandoc) == "function" then
         return main_filter.Pandoc(doc)
     else
-        log("Warning: Main filter's Pandoc function not found or not a function")
+        log_error("Warning: Main filter's Pandoc function not found or not a function")
         return doc
     end
 end
