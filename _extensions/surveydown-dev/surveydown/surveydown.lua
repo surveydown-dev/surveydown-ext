@@ -23,14 +23,32 @@ local function get_main_filter_path()
     return result
 end
 
+-- Function to load file with different path separators
+local function load_file_with_separators(path)
+    local success, result = pcall(loadfile, path)
+    if success then
+        return result
+    end
+
+    -- Try replacing forward slashes with backslashes
+    local alt_path = path:gsub("/", "\\")
+    success, result = pcall(loadfile, alt_path)
+    if success then
+        return result
+    end
+
+    -- If both attempts fail, return nil and the error message
+    return nil, "Failed to load file: " .. tostring(result)
+end
+
 -- Get the main filter path
 local main_filter_path = get_main_filter_path()
 
 -- Load the main filter
-local main_filter, load_error = loadfile(main_filter_path)
+local main_filter, load_error = load_file_with_separators(main_filter_path)
 
 if load_error then
-    error("Failed to load main filter: " .. load_error)
+    error(load_error)
 else
     main_filter = main_filter()  -- Execute the loaded chunk
 end
