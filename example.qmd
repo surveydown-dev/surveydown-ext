@@ -9,17 +9,46 @@ filters: [surveydown]
 #| warning: false
 #| message: false
 
+################
+# Installation #
+################
+
 # Run this in your R Console to install the latest version of the package:
 # remotes::install_github("surveydown-dev/surveydown", force = TRUE)
 
 # Run this to install or update the Quarto extension to the latest version:
 # surveydown::sd_update_extension()
 
+#################
+# Load packages #
+#################
+
 # Load the package
 library(surveydown)
 
 # Run initial setup function (essential - do not delete)
 sd_setup()
+
+##################
+# database setup #
+##################
+
+# surveydown stores data on a database that you define at https://supabase.com/
+# To connect to a database, update the sd_database() function with details
+# from your supabase database. For this demo, we set ignore = TRUE, which will
+# ignore the settings and won't attempt to connect to the database. This is
+# helpful for local testing if you don't want to record testing data in the
+# database table. See the documentation for details:
+# https://surveydown.org/store-data
+
+db <- sd_database(
+  host   = "",
+  dbname = "",
+  port   = "",
+  user   = "",
+  table  = "",
+  ignore = TRUE
+)
 ```
 
 ::: {#welcome .sd-page}
@@ -83,25 +112,6 @@ This it the last page in the survey
 
 ```{r}
 #| context: server
-
-##################
-# database setup #
-##################
-
-# surveydown stores data on a database that you define at https://supabase.com/
-# To connect to a database to store the survey data, update this with details
-# from your supabase account and database. For this demo, we set pause = TRUE
-# which will ignore the other settings and won't attempt to connect to the database.
-# See documentation for details at https://surveydown.org/store-data
-
-db <- sd_database(
-  host   = "",
-  dbname = "",
-  port   = "",
-  user   = "",
-  table  = "",
-  pause  = TRUE
-)
 
 ################
 # config setup #
