@@ -30,7 +30,7 @@ library(surveydown)
 sd_setup()
 
 ##################
-# database setup #
+# Database setup #
 ##################
 
 # surveydown stores data on a database that you define at https://supabase.com/
